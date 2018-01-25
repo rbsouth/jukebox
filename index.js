@@ -5,12 +5,10 @@ class Jukebox {
 		this.currentSongIndex = 0;
 	}
 	getSongName(selector){
-		//var = document.('')
-		//selector.text = 
-		selector.innerText = this.songs[this.currentSongIndex]
+		selector.innerText = this.songs[this.currentSongIndex];
 	}
 	setNameInterval(){
-		setInterval(this.getSongName, 1000)
+		setInterval(this.getSongName, 1000);
 	}
 	play(){
 		this.audio.play();
@@ -26,7 +24,7 @@ class Jukebox {
 		this.currentSongIndex++;
 		this.audio.pause();
 		this.audio.setAttribute("src", 'songs/' + this.songs[this.currentSongIndex] + '.mp3');
-		//selector.innerText = this.songs[this.currentSongIndex]
+		//selector.innerText = this.songs[this.currentSongIndex];
 		this.audio.play();
 	}
 	trackTime(time_display){
@@ -88,11 +86,9 @@ song.addEventListener('timeupdate', function(){
 		jukebox.trackTime(realtime);
 })
 
-console.log(document.getElementById('song'))
-
 //change header to song name
 var change_header = document.getElementById('header');
 
 // setInterval(jukebox.getSongName, 1000);
-jukebox.setNameInterval()	
-jukebox.getSongName(change_header)
+jukebox.setNameInterval();
+jukebox.getSongName(change_header);
