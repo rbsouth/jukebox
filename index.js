@@ -4,8 +4,13 @@ class Jukebox {
 		this.songs = ['Bye bye bye', '21 guns', '6 foot 7 foot'];
 		this.currentSongIndex = 0;
 	}
-	getSongName(){
-		
+	getSongName(selector){
+		//var = document.('')
+		//selector.text = 
+		selector.innerText = this.songs[this.currentSongIndex]
+	}
+	setNameInterval(){
+		setInterval(this.getSongName, 1000)
 	}
 	play(){
 		this.audio.play();
@@ -17,10 +22,11 @@ class Jukebox {
 		this.audio.pause();
 		this.audio.currentTime = 0;
 	}
-	skip(){
+	skip(selector){
 		this.currentSongIndex++;
 		this.audio.pause();
 		this.audio.setAttribute("src", 'songs/' + this.songs[this.currentSongIndex] + '.mp3');
+		//selector.innerText = this.songs[this.currentSongIndex]
 		this.audio.play();
 	}
 	trackTime(time_display){
@@ -41,8 +47,8 @@ class Jukebox {
 			duration_seconds = '0' + duration_seconds;
 		}
 		time_display.innerHTML = current_time_minutes + ':' + current_time_seconds + ' / ' + duration_minutes + ':' + duration_seconds + '';
-		
 	}
+	//setInterval(this.getSongName, 1000);
 }
 
 
@@ -50,8 +56,6 @@ class Jukebox {
 var song = document.getElementById('song');
 var jukebox = new Jukebox(song);
 var play_song = document.getElementById('play-button');
-
-var change_header = document.getElementById('header');
 
 
 
@@ -72,9 +76,10 @@ stop_song.addEventListener('click', function(){
 })
 
 var skip_song = document.getElementById('skip-button');
+//var change_header = document.getElementById('header');
 
 skip_song.addEventListener('click', function(){
-	jukebox.skip();
+	jukebox.skip(/*change_header*/);
 })
 
 //listen for timeupdate 
@@ -82,3 +87,12 @@ var realtime = document.getElementById('realtime')
 song.addEventListener('timeupdate', function(){
 		jukebox.trackTime(realtime);
 })
+
+console.log(document.getElementById('song'))
+
+//change header to song name
+var change_header = document.getElementById('header');
+
+// setInterval(jukebox.getSongName, 1000);
+jukebox.setNameInterval()	
+jukebox.getSongName(change_header)
