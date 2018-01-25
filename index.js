@@ -1,10 +1,12 @@
 class Jukebox {
 	constructor(audio){
 		this.audio = audio;
-		this.songs = ['songs/bye.mp3', 'songs/21-guns.mp3', 'songs/6foot7foot.mp3'];
+		this.songs = ['Bye bye bye', '21 guns', '6 foot 7 foot'];
 		this.currentSongIndex = 0;
 	}
-	
+	getSongName(){
+		
+	}
 	play(){
 		this.audio.play();
 	}
@@ -18,7 +20,7 @@ class Jukebox {
 	skip(){
 		this.currentSongIndex++;
 		this.audio.pause();
-		this.audio.setAttribute("src", this.songs[this.currentSongIndex]);
+		this.audio.setAttribute("src", 'songs/' + this.songs[this.currentSongIndex] + '.mp3');
 		this.audio.play();
 	}
 	trackTime(time_display){
@@ -32,6 +34,12 @@ class Jukebox {
 		if (current_time_seconds < 10) {
 			current_time_seconds = '0' + current_time_seconds;
 		}
+		if (duration_minutes < 10) {
+			duration_minutes = ' ' + duration_minutes;
+		}
+		if (duration_seconds < 10) {
+			duration_seconds = '0' + duration_seconds;
+		}
 		time_display.innerHTML = current_time_minutes + ':' + current_time_seconds + ' / ' + duration_minutes + ':' + duration_seconds + '';
 		
 	}
@@ -42,6 +50,10 @@ class Jukebox {
 var song = document.getElementById('song');
 var jukebox = new Jukebox(song);
 var play_song = document.getElementById('play-button');
+
+var change_header = document.getElementById('header');
+
+
 
 play_song.addEventListener('click', function(){
 	jukebox.play();
@@ -68,5 +80,5 @@ skip_song.addEventListener('click', function(){
 //listen for timeupdate 
 var realtime = document.getElementById('realtime')
 song.addEventListener('timeupdate', function(){
-		jukebox.trackTime(realtime)
+		jukebox.trackTime(realtime);
 })
