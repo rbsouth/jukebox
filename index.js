@@ -4,13 +4,12 @@ class Jukebox {
 		this.songs = ['Bye bye bye', '21 guns', '6 foot 7 foot'];
 		this.currentSongIndex = 0;
 	}
-	getSongName(selector){
-		selector.innerText = this.songs[this.currentSongIndex];
+	getSongName(){
+		for (var i = 0; i < this.songs.length; i++) {
+			return this.songs[this.currentSongIndex];
+		}
 	}
-	setNameInterval(){
-		setInterval(this.getSongName, 1000);
-	}
-	play(){
+	playSong(){
 		this.audio.play();
 	}
 	pause(){
@@ -20,14 +19,13 @@ class Jukebox {
 		this.audio.pause();
 		this.audio.currentTime = 0;
 	}
-	skip(selector){
+	skip(){
 		this.currentSongIndex++;
 		this.audio.pause();
 		this.audio.setAttribute("src", 'songs/' + this.songs[this.currentSongIndex] + '.mp3');
-		//selector.innerText = this.songs[this.currentSongIndex];
-		this.audio.play();
+		this.playSong();
 	}
-	trackTime(time_display){
+	trackTime(){
 		var current_time_minutes = Math.floor(this.audio.currentTime / 60);
 		var current_time_seconds = Math.floor(this.audio.currentTime - current_time_minutes * 60);
 		var duration_minutes = Math.floor(this.audio.duration / 60);
@@ -44,51 +42,48 @@ class Jukebox {
 		if (duration_seconds < 10) {
 			duration_seconds = '0' + duration_seconds;
 		}
-		time_display.innerHTML = current_time_minutes + ':' + current_time_seconds + ' / ' + duration_minutes + ':' + duration_seconds + '';
+		return current_time_minutes + ':' + current_time_seconds + ' / ' + duration_minutes + ':' + duration_seconds + '';
 	}
-	//setInterval(this.getSongName, 1000);
 }
 
+var $song = $('#song');
+var jukebox = new Jukebox($song[0]);
 
+var $play_song = $('#play-button');
 
-var song = document.getElementById('song');
-var jukebox = new Jukebox(song);
-var play_song = document.getElementById('play-button');
+$play_song.click(function(){
+	jukebox.playSong();
+});
 
+var $pause_song = $('#pause-button');
 
-
-play_song.addEventListener('click', function(){
-	jukebox.play();
-})
-
-var pause_song = document.getElementById('pause-button');
-
-pause_song.addEventListener('click', function(){
+$pause_song.click(function(){
 	jukebox.pause();
-})
+});
 
-var stop_song = document.getElementById('stop-button');
+var $stop_song = $('#stop-button');
 
-stop_song.addEventListener('click', function(){
+$stop_song.click(function(){
 	jukebox.stop();
-})
+});
 
-var skip_song = document.getElementById('skip-button');
-//var change_header = document.getElementById('header');
+var $skip_song = $('#skip-button');
+var $change_header = $('#header');
 
-skip_song.addEventListener('click', function(){
-	jukebox.skip(/*change_header*/);
-})
+$skip_song.click(function(){
+	jukebox.skip($change_header);
+});
 
 //listen for timeupdate 
-var realtime = document.getElementById('realtime')
-song.addEventListener('timeupdate', function(){
-		jukebox.trackTime(realtime);
-})
+var $realtime = $('#realtime')
+
+$song.on('timeupdate', function(){
+		$realtime.text(jukebox.trackTime());
+});
 
 //change header to song name
-var change_header = document.getElementById('header');
+var $change_header = $('#header');
 
-// setInterval(jukebox.getSongName, 1000);
-jukebox.setNameInterval();
-jukebox.getSongName(change_header);
+$song.on('play', function(){
+	$change_header.text(jukebox.getSongName());
+});
